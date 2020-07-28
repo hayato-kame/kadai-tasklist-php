@@ -34,6 +34,18 @@
             </tbody>
         </table>
     @endif
-    
+
+    {{-- タスク作成ページへのリンク --}}
+    {!! link_to_route('tasks.create', '新規タスクの投稿', [], ['class' => 'btn btn-primary']) !!}
+
+    @foreach ($tasks as $task)
+        <tr>
+    {{-- タスク詳細ページへのリンク --}}
+    {{-- link_to_route() の第4引数（HTMLの属性情報）ですが今回は不要であるため、省略しています。 --}}
+            <td>{!! link_to_route('tasks.show', $task->id, ['task' => $task->id]) !!}</td>
+            <td>{{ $task->content }}</td>
+        </tr>
+    @endforeach
+
 
 @endsection
