@@ -9,6 +9,8 @@
 {{-- ログインする前のウェルカムページ  トップページ --}}
 {{--  OK --}}
 
+{{-- トップページにユーザ登録リンクを作成しました--}}
+{{--  OK --}}
 
 
 
@@ -19,6 +21,14 @@
     <div class="center jumbotron">
         <div class="text-center">
             <h1>Welcome to the TaskList</h1>
+            
+            
+            
+            {{-- ユーザ登録ページへのリンク --}}
+            {!! link_to_route('signup.get', 'Sign up now!', [], ['class' => 'btn btn-lg btn-primary']) !!}
+            
+            
+            
         </div>
     </div>
 @endsection

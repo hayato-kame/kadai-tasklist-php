@@ -33,11 +33,23 @@
             
           
             
-            <ul class="navbar-nav">
-                {{-- ユーザ登録ページへのリンク --}}
-                <li class="nav-item"><a href="#" class="nav-link">Signup</a></li>
-                {{-- ログインページへのリンク --}}
-                <li class="nav-item"><a href="#" class="nav-link">Login</a></li>
+            <!--<ul class="navbar-nav">-->
+            <!--    {{-- ユーザ登録ページへのリンク --}}-->
+            <!--    <li class="nav-item"><a href="#" class="nav-link">Signup</a></li>-->
+            <!--    {{-- ログインページへのリンク --}}-->
+            <!--    <li class="nav-item"><a href="#" class="nav-link">Login</a></li>-->
+            <!--</ul>-->
+           
+           
+           
+            
+            {{-- ナビゲーションバーのSignupのリンクも正しいリンク先を設定しておきます  aタグじゃなくて link_to_route を使う--}}
+            
+            <ul class="nav navbar-nav navbar-right">
+                    {{-- ユーザ登録ページへのリンク --}}
+                    <li>{!! link_to_route('signup.get', 'Signup', [], ['class' => 'nav-link']) !!}</li>
+                    {{-- ログインページへのリンク --}}
+                    <li><a href="#">Login</a></li>
             </ul>
             
         
