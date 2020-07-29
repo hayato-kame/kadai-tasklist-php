@@ -29,5 +29,33 @@
             <td>{{ $task->content }}</td>
         </tr>
     </table>
+    
+     
+ {{-- タスク編集ページへのリンク aタグの代わりにLaravel Collectiveの link_to_route() 関数を利用 
+     'tasks.edit' で　TasksController の editアクション へ行くようにしてる--   $task->id  で　idプロパティの情報を送ってる　}}
+     
+     
+    {!! link_to_route('tasks.edit', 'このタスクを編集', ['task' => $task->id], ['class' => 'btn btn-light']) !!}
+
+{{-- タスク削除フォーム   'tasks.destroy' で　TasksController の destroyアクション へ行くようにしてる--}}
+    {!! Form::model($task, ['route' => ['tasks.destroy', $task->id], 'method' => 'delete']) !!}
+        {!! Form::submit('削除', ['class' => 'btn btn-danger']) !!}
+    {!! Form::close() !!}
+
+
+
+
+
+
+ {{--   自分で a タグを記述しても良いですが、ここではLaravel Collectiveの link_to_route() 関数を利用しています。4つの引数について、まとめます。
+
+第1引数：ルーティング名
+第2引数：リンクにしたい文字列
+第3引数：/tasks/{task} の {task} のようなURL内のパラメータに代入したい値を配列形式で指定（今回は不要なので空っぽの配列 []）
+第4引数：HTMLタグの属性を配列形式で指定（今回はBootstrapのボタンとして表示するためのクラスを指定）
+    
+    --}}
+
+
 
 @endsection

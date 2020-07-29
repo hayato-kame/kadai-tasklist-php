@@ -129,17 +129,52 @@ class TasksController extends Controller
 
     /**
      * Show the form for editing the specified resource.更新画面表示処理
-     *
+     * getで!!
+     * getでtasks/id/editにアクセスされた場合
+     * editアクションには $id の引数が与えられます。
+     * これは /tasks/1, /tasks/4 といったURLにアクセスされたとき、 $id = 1 や $id = 4 のように代入されます。
+     * 
+     * $id が指定されているので、 $task = Task::findOrFail($id); によって1つだけ取得します
+         return view('tasks.edit'); を呼び出すことになります。
+        tasks.edit となっているのは、 edit.blade.php が resouces/views/tasks/edit.blade.php に配置されているからです。
+         resources/views 以下にフォルダがある場合には フォルダ名.ファイル名 という形で指定します。
+         [] 連想配列として、渡したいものを指定する 'キー' => 変数などの値  をカンマ区切りで書く
+   
+     * 
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        //
+        // idの値でメッセージを検索して取得  1件取得するので変数名は単数形
+        // findOrFail はレコードが存在しない時に404エラー（Not foundエラー）を出します
+      
+        
+        // 編集なので、$task 変数に格納されているオブジェクトの各プロパティには、もうすでに値が入っています
+        
+        $task = Task::findOrFail($id); 
+
+        // タスク編集ビューでそれを表示
+        // ビュー側では キーを元にして取得します、もし、
+        // 'task' => $task ではなくて 'hoge' => $task  と書いたら、 
+        // ビュー側では、 $hoge とい変数名で取得することになりますので、注意する
+        
+        // view関数   Controllerから特定のViewを呼び出すには、 view() を使えば良い
+        
+        return view('tasks.edit', [
+            'task' => $task,
+        ]);
+        
     }
+    
 
     /**
      * Update the specified resource in storage.更新処理
+     * 
+     * put  または  patchで !!
+     * putまたはpatchでtasks/idにアクセスされた場合
+     * 
+     * 
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -147,17 +182,38 @@ class TasksController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // idの値でタスクを検索してデータベースから取得
+        $task = Task::findOrFail($id);
+        
+        // タスクを更新
+        $task->content = $request->content;
+        $task->save();
+
+        // トップページへリダイレクトさせる
+        //  view関数   Controllerから特定のViewを呼び出すには、 view() を使えば良いが、
+        // 今回は リダイレクトしているためViewは不要です
+       
+        return redirect('/');
     }
 
+
     /**
-     * Remove the specified resource from storage.削除処理
+     * Remove the specified resource from storage.
+     * delete で!! 
+     * delete で tasks/idにアクセスされた場合
+     * 
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        //
+        // idの値でタスクを検索して取得
+        $task = Task::findOrFail($id);
+        // タスクを削除
+        $task->delete();
+
+        // トップページへリダイレクトさせる
+        return redirect('/');
     }
 }
