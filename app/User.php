@@ -108,8 +108,54 @@ create() は一気にデータを代入できますが、すべての項目が�
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    
+    
+    
+    /**
+     * このユーザが所有する投稿は複数あるので tasks() メソッド　というふうに
+     * 複数形にしています。（ Taskモデルとの関係を定義）
+     */
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
+    
+    
+    
+    
+    
+    /**
+     * このユーザに関係するモデルの件数をロードする。
+     * 
+     * これをアクションで $user->loadRelationshipCounts() のように呼び出した後、
+     * ビューで $user->tasks_count のように件数を取得することになります
+     * 
+     * 
+     */
+    public function loadRelationshipCounts()
+    {
+        $this->loadCount('tasks');
+    }
+    
+    
+    
 }
 
 
 // tinker などで　まず   use App\User としてから User::all() などを実行する
 
+/**
+ * 
+ * Userモデルファイルにも一対多の表現を記述しておきます。
+ * Userが持つTaskは複数存在するため、 function tasks() のように複数形tasksでメソッドを定義します。
+ * 中身は return $this->hasMany(Task::class); とします
+ * （先ほどとは異なりhasManyを使用していることに着目してください）
+ * 
+ * 
+ * 
+ * Taskのときと同様に記述することで、
+ * UserのインスタンスからそのUserが持つTaskを 
+ * $user->tasks()->get() 
+ * もしくは $user->tasks という簡単な記述で取得できるようになります
+ * 
+ */
