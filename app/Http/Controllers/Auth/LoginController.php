@@ -18,13 +18,24 @@ class LoginController extends Controller
     | to conveniently provide its functionality to your applications.
     |
     */
+    
+    
+    // トレイトを使っています Routerで設定した showLoginForm や login のアクションはトレイトに定義されています
 
-    use AuthenticatesUsers;
+    // トレイト    メソッドをまとめたものです
+    use AuthenticatesUsers;  // トレイトです
+
+
 
     /**
      * Where to redirect users after login.
      *
      * @var string
+     * ログイン成功後のリダイレクト先もユーザ登録成功後と同じ 
+     * RouteServiceProvider::HOME に設定されています。
+     * 
+     * 
+     * 
      */
     protected $redirectTo = RouteServiceProvider::HOME;
 
