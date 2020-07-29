@@ -18,6 +18,8 @@
  
 
  <h1>id = {{ $task->id }} のタスク詳細ページ</h1>
+ 
+ 
 
     <table class="table table-bordered">
         <tr>
@@ -25,10 +27,16 @@
             <td>{{ $task->id }}</td>
         </tr>
         <tr>
+            <th>ステータス</th>
+            <td>{{ $task->status }}</td>
+        </tr>
+        <tr>
             <th>タスク</th>
             <td>{{ $task->content }}</td>
         </tr>
     </table>
+    
+    
     
      
  {{-- タスク編集ページへのリンク aタグの代わりにLaravel Collectiveの link_to_route() 関数を利用 
