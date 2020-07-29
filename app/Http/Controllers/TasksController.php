@@ -53,11 +53,18 @@ class TasksController extends Controller
             // 認証済みユーザを取得
             $user = \Auth::user();
             // ユーザの投稿の一覧を作成日時の降順で取得
+            
+            
+            // この１行追加した
+            $status = $user->status()->orderBy('created_at', 'desc')->paginate(10); 
+            
+            
             $tasks = $user->tasks()->orderBy('created_at', 'desc')->paginate(10);  // ページネートしないと
 
             $data = [
                 'user' => $user,
                 'tasks' => $tasks,
+                'status' => $status,  // 追加した
             ];
         }
 

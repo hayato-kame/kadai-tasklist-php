@@ -121,6 +121,11 @@ create() は一気にデータを代入できますが、すべての項目が�
     }
     
     
+     // 追加した
+    public function status()
+    {
+        return $this->hasMany(Task::class);
+    }
     
     
     
@@ -135,6 +140,11 @@ create() は一気にデータを代入できますが、すべての項目が�
     public function loadRelationshipCounts()
     {
         $this->loadCount('tasks');
+        
+        
+        // この１行追加した
+        $this->loadCount('status');
+        
     }
     
     

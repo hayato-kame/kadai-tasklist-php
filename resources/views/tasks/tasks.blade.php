@@ -10,16 +10,21 @@
     <ul class="list-unstyled">
         @foreach ($tasks as $task)
             <li class="media mb-3">
-                {{-- 投稿の所有者のメールアドレスをもとにGravatarを取得して表示 --}}
+                
     
                 <div class="media-body">
                     <div>
-                        {{-- 投稿の所有者のユーザ詳細ページへのリンク --}}
+                        
             
                         <span class="text-muted">posted at {{ $task->created_at }}</span>
                     </div>
                     <div>
                         {{-- 投稿内容 --}}
+                        
+                        {{-- ステータスを付け足した --}}
+                        <p class="mb-0">{!! nl2br(e($task->status)) !!}</p>
+                        
+                        
                         <p class="mb-0">{!! nl2br(e($task->content)) !!}</p>
                     </div>
                     
@@ -28,6 +33,14 @@
                     {{-- 教科書9.5 で付け足した --}}
                     <div>
                         @if (Auth::id() == $task->user_id)
+                        
+                        
+                            {{-- 投稿編集ボタンのフォーム を付け足した--}}
+                            
+                        
+                        
+                        
+                        
                             {{-- 投稿削除ボタンのフォーム --}}
                             {!! Form::open(['route' => ['tasks.destroy', $task->id], 'method' => 'delete']) !!}
                                 {!! Form::submit('Delete', ['class' => 'btn btn-danger btn-sm']) !!}

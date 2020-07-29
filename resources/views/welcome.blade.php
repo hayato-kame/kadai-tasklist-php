@@ -31,7 +31,7 @@
                     </div>
                     <div class="card-body">
                         {{-- 認証済みユーザのメールアドレスをもとにGravatarを取得して表示 --}}
-          
+                          {{-- してない--}}
                     </div>
                 </div>
             </aside>
