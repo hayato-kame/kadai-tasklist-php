@@ -73,11 +73,30 @@ class TasksController extends Controller
      * 新規作成したメッセージインスタンスに代入・保存します。
      * storeアクションの最後では redirect('/') として、 Viewを返さずに / へリダイレクト（自動でページを移動）させています。
      * Viewを作成しても良いですが、わざわざ作成する必要もないでしょう
+     * 
+     * このままだと、PHP側はカラのタスクを投稿してもそのままタスクとして保存しようとします。
+     * データベース側ではcontentカラムにNOT NULL制約をかけているため、
+     * カラのタスクを投稿しようとすると、制約に違反するためシステムエラーが発生します。
+     * システムエラーを防ぐためにも、バリデーションを行う必要があります。
+     * 必要なバリデーション項目は以下の2項目
+     * content が空になっていないか
+     * content が255文字を超えていないか（content カラムは varchar(255) のデータ型なため）
+     * 
+     * $request->validate() を使用してバリデーションを行います。 
+     * $request の content に対して、
+     * required (カラでない）かつ max:255 (255文字を超えていない）であることを検証しています
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
+        
+        // バリデーション
+        $request->validate([
+            'content' => 'required|max:255',
+        ]);
+        
+        
         // タスクを作成
         $task = new Task;
         $task->content = $request->content;
@@ -182,6 +201,14 @@ class TasksController extends Controller
      */
     public function update(Request $request, $id)
     {
+        
+        // バリデーション
+        $request->validate([
+            'content' => 'required|max:255',
+        ]);
+        
+        
+        
         // idの値でタスクを検索してデータベースから取得
         $task = Task::findOrFail($id);
         

@@ -27,6 +27,20 @@ action属性を 'tasks.update' としているのは、このPOSTメソッドの
 'method' => 'post' だった時は、フォームを作成するときはデフォルトでPOSTメソッドになるので 書かなくても良いことになっています。
 今回は、'method' => 'put'なので、必ず書きます。--}}
 
+
+
+
+
+{{-- バリデーションのエラーメッセージ は、共通ファイルとして管理したので　コメントアウトしておく--}}
+<!--@if (count($errors) > 0)-->
+<!--        <ul class="alert alert-danger" role="alert">-->
+<!--            @foreach ($errors->all() as $error)-->
+<!--                <li class="ml-4">{{ $error }}</li>-->
+<!--            @endforeach-->
+<!--        </ul>-->
+<!--@endif-->
+
+
 <h1>id: {{ $task->id }} のタスク編集ページ</h1>
 
     <div class="row">
