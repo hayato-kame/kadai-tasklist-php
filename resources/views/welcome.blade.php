@@ -36,7 +36,19 @@
                     </div>
                 </div>
             </aside>
+            
             <div class="col-sm-8">
+                
+                
+                
+            {{-- 教科書9.6 で追加　せっかくなのでトップページにも投稿フォームを設置しましょう --}}
+            
+                  {{-- 投稿フォーム --}}
+                @include('tasks.form')
+          
+          
+            
+            
                 {{-- 投稿一覧 --}}
                 @include('tasks.tasks')
             </div>
