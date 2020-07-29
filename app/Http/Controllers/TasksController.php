@@ -16,12 +16,7 @@ class TasksController extends Controller
      * @return \Illuminate\Http\Response
      * 
      */
-    public function index()
-    {
-        // タスク一覧を取得する  一覧であり、複数のデータを配列で取得するので、変数名は複数形です
-        $tasks = Task::all();    //  上のほうで  use App\Task; してるので、App\Task::all()  とは書かなくていい
-        
-        // タスク一覧ビューでそれを表示
+     // タスク一覧ビューでそれを表示
         // view() という関数を呼び出しています 第１引数には　表示したいViewを指定して
         // tasks.index は resources/views/tasks/index.blade.php を意味します。
         // 第2引数には index.blade.php のビューに渡したいデータを連想配列で指定する
@@ -36,12 +31,46 @@ class TasksController extends Controller
         //  もしも以下のように左側が hoge ならば、Viewのファイル側では $tasks ではなく、 $hoge という変数として呼び出すことができるようになります。
         //  ['hoge' => $tasks,]
        //   'tasks/index' で  指定した、 表示するビューである  resouces/views/tasks/index.blade.php をみて見てください
+         //  上のほうで  use App\Task; してるので、App\Task::all()  とは書かなくていい
+        // タスク一覧を取得する  一覧であり、複数のデータを配列で取得するので、変数名は複数形です
+    
+    public function index()
+    {
         
+        
+        // これをコメントにして　以下に書き換えました 教科書9.3のところで
+        /**
+        $tasks = Task::all();   
         return view('tasks.index', [
             'tasks' => $tasks,
             ]);
+        */
+        
+        
+        
+        $data = [];
+        if (\Auth::check()) { // 認証済みの場合
+            // 認証済みユーザを取得
+            $user = \Auth::user();
+            // ユーザの投稿の一覧を作成日時の降順で取得
+            $tasks = $user->tasks()->orderBy('created_at', 'desc')->paginate(10);  // ページネートしないと
+
+            $data = [
+                'user' => $user,
+                'tasks' => $tasks,
+            ];
+        }
+
+        // Welcomeビューでそれらを表示
+        return view('welcome', $data);
+            
+            
    
     }
+    
+    
+    
+     
 
     /**
      * Show the form for creating a new resource.新規登録画面表示処理
