@@ -142,7 +142,8 @@ class TasksController extends Controller
         
         
         // 認証済みユーザ（閲覧者）の投稿として作成（リクエストされた値をもとに作成）
-        $request->user()->posts()->create([
+        $request->user()->tasks()->create([
+           'status' => $request->status, 
             'content' => $request->content,
         ]);
 

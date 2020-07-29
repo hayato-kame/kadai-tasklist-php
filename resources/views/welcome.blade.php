@@ -20,8 +20,7 @@
 @section('content')
     @if (Auth::check())
  {{-- これをコメントにして 変更教科書9.3で --}}   
-        <!--{{ Auth::user()->name }}-->
-        
+       
         
    
    <div class="row">
@@ -32,7 +31,7 @@
                     </div>
                     <div class="card-body">
                         {{-- 認証済みユーザのメールアドレスをもとにGravatarを取得して表示 --}}
-                        <!--<img class="rounded img-fluid" src="{{ Gravatar::get(Auth::user()->email, ['size' => 500]) }}" alt="">-->
+          
                     </div>
                 </div>
             </aside>
@@ -68,6 +67,6 @@
             </div>
         </div>
    {{-- ページネーションのリンク includeするから  ここでは要らない --}}
-    <!--{{ $tasks->links() }} -->
+   
     @endif
 @endsection
