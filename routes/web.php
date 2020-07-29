@@ -11,14 +11,21 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 
-// 上に戻しました。
-// これはコメントにして
-// Route::get('/', 'TasksController@index');
+//  今まで / はRouterからControllerへ飛ばさずに直接welcomeのViewを表示させていました。
+// しかし、これを変更するので コメントにします 教科書9.2 のところです
+
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+
+
+
+//  教科書9.2 のところです  ここからは少し複雑なことを行っていくのですが、上記の記述を下記のように変更し、
+//  Controller ( TasksController@index ) を経由してwelcomeを表示するようにします。
+ Route::get('/', 'TasksController@index');
 
 
 
@@ -41,3 +48,21 @@ Route::post('signup', 'Auth\RegisterController@register')->name('signup.post');
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login')->name('login.post');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout.get');
+
+
+
+
+Route::group(['middleware' => ['auth']], function () {
+    
+    
+    // これはユーザー一覧ユーザー詳細のための設定なので とりあえずコメント
+    // Route::resource('users', 'UsersController', ['only' => ['index', 'show']]);
+
+
+// 認証を必要とするルーティンググループ内に、 Taskのルーティングを設定します（登録のstoreと削除のdestroyのみ）
+// これで、認証済みのユーザだけがこれらのアクションにアクセスできます。
+    Route::resource('tasks', 'TasksController', ['only' => ['store', 'destroy']]);
+    
+});
+
+
