@@ -127,15 +127,37 @@ class TasksController extends Controller
         ]);
         
         
+        /** 
+         * 9.4 で変更したので コメントアウトする　以下に変更した
         // タスクを作成
         $task = new Task;
          $task->status = $request->status;  // 追加
         $task->content = $request->content;
         $task->save();
-
         // トップページへリダイレクトさせる
         return redirect('/');
+        
+        */
+        
+        
+        
+        // 認証済みユーザ（閲覧者）の投稿として作成（リクエストされた値をもとに作成）
+        $request->user()->posts()->create([
+            'content' => $request->content,
+        ]);
+
+        // 前のURLへリダイレクトさせる
+        return back();
+        
+        // return back() とすることで、前のページへリダイレクトされます。この store アクションの場合、リクエスト元の投稿フォームのページへ戻ることになります。
+        
     }
+    
+    
+    
+    
+    
+    
 
     /**
      * Display the specified resource.取得表示処理
@@ -262,18 +284,35 @@ class TasksController extends Controller
      * delete で!! 
      * delete で tasks/idにアクセスされた場合
      * 
-     *
+     * 投稿の削除を実装します
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         // idの値でタスクを検索して取得
-        $task = Task::findOrFail($id);
+        $task = \App\Task::findOrFail($id);
+        
+        
+        
+        /**
+         * 教科書の9.5 で変更してるのでコメントアウトする以下に変更した
         // タスクを削除
         $task->delete();
-
         // トップページへリダイレクトさせる
         return redirect('/');
+        */
+        
+        
+        
+        // 他者のTaskを勝手に削除されないよう、ログインユーザのIDとTaskの所有者のID（user_id）が一致しているかを調べるようにしています。
+        // 認証済みユーザ（閲覧者）がその投稿の所有者である場合は、投稿を削除
+        if (\Auth::id() === $task->user_id) {  //  削除を実行する部分は、if文で囲みました。
+            $task->delete();
+        }
+
+        // 前のURLへリダイレクトさせる
+        return back();
+        
     }
 }
