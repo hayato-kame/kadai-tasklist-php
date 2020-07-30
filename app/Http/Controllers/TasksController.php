@@ -201,7 +201,7 @@ class TasksController extends Controller
         // idの値でメッセージを検索して取得 １つだけ取得されるので、 変数名は単数形です
         $task = Task::findOrFail($id);
 
-        // メッセージ詳細ビューでそれを表示
+        // タスク詳細ビューでそれを表示 'tasks.show'とは、show.blade.php が resouces/views/tasks/show.blade.php に配置されているからです。
         return view('tasks.show', [
             'task' => $task,
         ]);

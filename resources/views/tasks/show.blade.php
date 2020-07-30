@@ -39,15 +39,22 @@
     
      
  {{-- タスク編集ページへのリンク aタグの代わりにLaravel Collectiveの link_to_route() 関数を利用 
-     'tasks.edit' で　TasksController の editアクション へ行くようにしてる--   $task->id  で　idプロパティの情報を送ってる　}}
+     'tasks.edit' で　TasksController の editアクション へ行くようにしてる   $task->id  で　idプロパティの情報を送ってる その後でビューのedit.blade.phpへ行く　--}}
      
      
     {!! link_to_route('tasks.edit', 'このタスクを編集', ['task' => $task->id], ['class' => 'btn btn-light']) !!}
 
+
+
+
+{{-- タスク削除フォーム をコメントアウトした --}}
 {{-- タスク削除フォーム   'tasks.destroy' で　TasksController の destroyアクション へ行くようにしてる--}}
-    {!! Form::model($task, ['route' => ['tasks.destroy', $task->id], 'method' => 'delete']) !!}
+
+{{--  
+{!! Form::model($task, ['route' => ['tasks.destroy', $task->id], 'method' => 'delete']) !!}
         {!! Form::submit('削除', ['class' => 'btn btn-danger']) !!}
     {!! Form::close() !!}
+--}}
 
 
 

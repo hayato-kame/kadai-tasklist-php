@@ -35,8 +35,10 @@
                         @if (Auth::id() == $task->user_id)
                         
                         
-                            {{-- 投稿編集ボタンのフォーム を付け足した--}}
-                            
+                            {{-- 投稿編集ボタンのフォーム を付け足した まず、TasksControllerのshowアクションへ行く その後でビューに行く (タスク詳細ビュー)--}}
+                             {!! Form::open(['route' => ['tasks.show', $task->id], 'method' => 'get']) !!}
+                                {!! Form::submit('Edit', ['class' => 'btn btn-danger btn-sm']) !!}
+                            {!! Form::close() !!}
                         
                         
                         
