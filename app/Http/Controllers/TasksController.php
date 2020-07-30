@@ -55,8 +55,8 @@ class TasksController extends Controller
             // ユーザの投稿の一覧を作成日時の降順で取得
             
             
-            // この１行追加した
-            $status = $user->status()->orderBy('created_at', 'desc')->paginate(10); 
+            // この１行追加した // 要らない
+            // $status = $user->status()->orderBy('created_at', 'desc')->paginate(10); 
             
             
             $tasks = $user->tasks()->orderBy('created_at', 'desc')->paginate(10);  // ページネートしないと
@@ -64,7 +64,7 @@ class TasksController extends Controller
             $data = [
                 'user' => $user,
                 'tasks' => $tasks,
-                'status' => $status,  // 追加した
+           //      'status' => $status,  // 追加した   要らない
             ];
         }
 
@@ -201,10 +201,20 @@ class TasksController extends Controller
         // idの値でメッセージを検索して取得 １つだけ取得されるので、 変数名は単数形です
         $task = Task::findOrFail($id);
 
-        // タスク詳細ビューでそれを表示 'tasks.show'とは、show.blade.php が resouces/views/tasks/show.blade.php に配置されているからです。
+        // ユーザーのものかどうか
+        
+        if (\Auth::id() === $task->user_id) {  
+            // タスク詳細ビューでそれを表示 'tasks.show'とは、show.blade.php が resouces/views/tasks/show.blade.php に配置されているからです。
         return view('tasks.show', [
             'task' => $task,
         ]);
+        
+        } else {
+            // トップページへリダイレクトさせる
+        return redirect('/');
+        }
+
+        
     }
 
     /**
@@ -240,10 +250,15 @@ class TasksController extends Controller
         // ビュー側では、 $hoge とい変数名で取得することになりますので、注意する
         
         // view関数   Controllerから特定のViewを呼び出すには、 view() を使えば良い
-        
+        // ユーザー認証してから 行う
+        if (\Auth::id() === $task->user_id) {  
         return view('tasks.edit', [
             'task' => $task,
         ]);
+        } else {
+            // トップページへリダイレクトさせる
+        return redirect('/');
+        }
         
     }
     
@@ -274,6 +289,9 @@ class TasksController extends Controller
         // idの値でタスクを検索してデータベースから取得
         $task = Task::findOrFail($id);
         
+        // ユーザ認証してから 行う
+         if (\Auth::id() === $task->user_id) { 
+        
         // タスクを更新
          $task->status = $request->status;  // 追加
         $task->content = $request->content;
@@ -282,8 +300,10 @@ class TasksController extends Controller
         // トップページへリダイレクトさせる
         //  view関数   Controllerから特定のViewを呼び出すには、 view() を使えば良いが、
         // 今回は リダイレクトしているためViewは不要です
-       
+         }
         return redirect('/');
+        
+        
     }
 
 
@@ -317,10 +337,14 @@ class TasksController extends Controller
         // 認証済みユーザ（閲覧者）がその投稿の所有者である場合は、投稿を削除
         if (\Auth::id() === $task->user_id) {  //  削除を実行する部分は、if文で囲みました。
             $task->delete();
+             // 前のURLへリダイレクトさせる
+             return back();
+        } else {
+            // トップページへリダイレクトさせる
+             return redirect('/');
         }
 
-        // 前のURLへリダイレクトさせる
-        return back();
-        
+       
+       
     }
 }

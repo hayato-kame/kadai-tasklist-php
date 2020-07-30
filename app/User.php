@@ -121,11 +121,11 @@ create() は一気にデータを代入できますが、すべての項目が�
     }
     
     
-     // 追加した
-    public function status()
-    {
-        return $this->hasMany(Task::class);
-    }
+     // 追加した  // 要らない
+    // public function status()
+    // {
+    //     return $this->hasMany(Task::class);
+    // }
     
     
     
